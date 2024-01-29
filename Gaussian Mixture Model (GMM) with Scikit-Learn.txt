@@ -1,0 +1,21 @@
+from sklearn.mixture import GaussianMixture
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+
+# Generate synthetic data
+np.random.seed(42)
+data = np.concatenate([np.random.normal(0, 1, 500), np.random.normal(5, 1, 500)])
+
+# Fit Gaussian Mixture Model
+gmm = GaussianMixture(n_components=2)
+gmm.fit(data.reshape(-1, 1))
+
+# Plot the data and GMM components
+sns.histplot(data, kde=True, stat='density', color='blue')
+x = np.linspace(-3, 10, 1000)
+y = np.exp(gmm.score_samples(x.reshape(-1, 1)))
+plt.plot(x, y, label='GMM', color='red')
+plt.title('Gaussian Mixture Model')
+plt.legend()
+plt.show()
